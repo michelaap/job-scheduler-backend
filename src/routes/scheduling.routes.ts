@@ -1,14 +1,9 @@
 import { Router } from 'express';
-import { uuid } from 'uuidv4';
 import { startOfHour, parseISO, isEqual } from 'date-fns';
 
-const schedulingRouter = Router();
+import Scheduling from '../models/Scheduling';
 
-interface Scheduling {
-  id: string;
-  provider: string;
-  date: Date;
-}
+const schedulingRouter = Router();
 
 const scheduler: Scheduling[] = [];
 
@@ -25,11 +20,7 @@ schedulingRouter.post('/', (req, res) => {
     return res.status(400).json({ message: 'This time already scheduled' });
   }
 
-  const scheduling = {
-    id: uuid(),
-    provider,
-    date: parsedDate,
-  };
+  const scheduling = new Scheduling(provider, parsedDate);
 
   scheduler.push(scheduling);
 

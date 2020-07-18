@@ -6,6 +6,11 @@ import SchedulingRepository from '../repositories/SchedulingRepository';
 const schedulingRouter = Router();
 const schedulingRepository = new SchedulingRepository();
 
+schedulingRouter.get('/', (req, res) => {
+  const schedulings = schedulingRepository.all();
+  return res.json(schedulings);
+});
+
 schedulingRouter.post('/', (req, res) => {
   const { provider, date } = req.body;
 
@@ -19,7 +24,6 @@ schedulingRouter.post('/', (req, res) => {
   }
 
   const scheduling = schedulingRepository.create(provider, parsedDate);
-
   return res.json(scheduling);
 });
 

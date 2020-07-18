@@ -16,6 +16,10 @@ class SchedulingRepository {
     return scheduling;
   }
 
+  public all(): Scheduling[] {
+    return this.scheduling;
+  }
+
   public findByDate(date: Date): Scheduling | null {
     const findScheduling = this.scheduling.find(s => isEqual(date, s.date));
     return findScheduling || null;

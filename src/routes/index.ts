@@ -1,9 +1,8 @@
 import { Router } from 'express';
+import schedulingRouter from './scheduling.routes';
 
-const router = Router();
+const routes = Router();
 
-router.get('/', (req, res) => {
-  res.json({ message: 'Hello World!' });
-});
+routes.use('/scheduling', schedulingRouter);
 
-export default router;
+export default routes;

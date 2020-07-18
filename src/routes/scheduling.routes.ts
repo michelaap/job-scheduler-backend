@@ -1,4 +1,4 @@
-import { Router, response } from 'express';
+import { Router } from 'express';
 import { parseISO } from 'date-fns';
 
 import SchedulingRepository from '../repositories/SchedulingRepository';
@@ -22,7 +22,7 @@ schedulingRouter.post('/', (req, res) => {
 
     return res.json(scheduling);
   } catch (error) {
-    return response.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 });
 

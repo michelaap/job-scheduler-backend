@@ -1,6 +1,11 @@
 import { isEqual } from 'date-fns';
 import Scheduling from '../models/Scheduling';
 
+interface CreateSchedulingDTO {
+  provider: string;
+  date: Date;
+}
+
 class SchedulingRepository {
   private scheduling: Scheduling[];
 
@@ -8,8 +13,8 @@ class SchedulingRepository {
     this.scheduling = [];
   }
 
-  public create(provider: string, date: Date): Scheduling {
-    const scheduling = new Scheduling(provider, date);
+  public create({ provider, date }: CreateSchedulingDTO): Scheduling {
+    const scheduling = new Scheduling({ provider, date });
 
     this.scheduling.push(scheduling);
 

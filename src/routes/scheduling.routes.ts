@@ -23,7 +23,11 @@ schedulingRouter.post('/', (req, res) => {
     return res.status(400).json({ message: 'This time already scheduled' });
   }
 
-  const scheduling = schedulingRepository.create(provider, parsedDate);
+  const scheduling = schedulingRepository.create({
+    provider,
+    date: parsedDate,
+  });
+
   return res.json(scheduling);
 });
 

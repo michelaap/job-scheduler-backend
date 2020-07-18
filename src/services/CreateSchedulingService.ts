@@ -1,4 +1,5 @@
 import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 
 import Scheduling from '../models/Scheduling';
 import SchedulingRepository from '../repositories/SchedulingRepository';
@@ -9,16 +10,11 @@ interface Request {
 }
 
 class CreateSchedulingService {
-  private schedulingRepository: SchedulingRepository;
-
-  constructor(schedulingRepository: SchedulingRepository) {
-    this.schedulingRepository = schedulingRepository;
-  }
-
-  public execute({ provider, date }: Request): Scheduling {
+  public async execute({ provider, date }: Request): Promise<Scheduling> {
+    const schedulingRepository = getCustomRepository(SchedulingRepository);
     const schedulingDate = startOfHour(date);
 
-    const findSchedulingOnTheSameDate = this.schedulingRepository.findByDate(
+    const findSchedulingOnTheSameDate = await schedulingRepository.findByDate(
       schedulingDate,
     );
 
@@ -26,11 +22,12 @@ class CreateSchedulingService {
       throw Error('This time already scheduled');
     }
 
-    const scheduling = this.schedulingRepository.create({
+    const scheduling = schedulingRepository.create({
       provider,
       date: schedulingDate,
     });
 
+    await schedulingRepository.save(scheduling);
     return scheduling;
   }
 }

@@ -12,6 +12,7 @@ export default class CreateScheduling1595089830888
             type: 'varchar',
             isPrimary: true,
             generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'provider',

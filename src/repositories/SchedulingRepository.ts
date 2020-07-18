@@ -1,32 +1,14 @@
-import { isEqual } from 'date-fns';
+import { EntityRepository, Repository } from 'typeorm';
+
 import Scheduling from '../models/Scheduling';
 
-interface CreateSchedulingDTO {
-  provider: string;
-  date: Date;
-}
+@EntityRepository(Scheduling)
+class SchedulingRepository extends Repository<Scheduling> {
+  public async findByDate(date: Date): Promise<Scheduling | null> {
+    const findScheduling = await this.findOne({
+      where: { date },
+    });
 
-class SchedulingRepository {
-  private scheduling: Scheduling[];
-
-  constructor() {
-    this.scheduling = [];
-  }
-
-  public create({ provider, date }: CreateSchedulingDTO): Scheduling {
-    const scheduling = new Scheduling({ provider, date });
-
-    this.scheduling.push(scheduling);
-
-    return scheduling;
-  }
-
-  public all(): Scheduling[] {
-    return this.scheduling;
-  }
-
-  public findByDate(date: Date): Scheduling | null {
-    const findScheduling = this.scheduling.find(s => isEqual(date, s.date));
     return findScheduling || null;
   }
 }

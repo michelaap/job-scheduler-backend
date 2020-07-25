@@ -4,8 +4,10 @@ import { parseISO } from 'date-fns';
 
 import SchedulingRepository from '../repositories/SchedulingRepository';
 import CreateSchedulingService from '../services/CreateSchedulingService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const schedulingRouter = Router();
+schedulingRouter.use(ensureAuthenticated);
 
 schedulingRouter.get('/', async (req, res) => {
   const schedulingRepository = getCustomRepository(SchedulingRepository);

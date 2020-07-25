@@ -5,12 +5,12 @@ import Scheduling from '../models/Scheduling';
 import SchedulingRepository from '../repositories/SchedulingRepository';
 
 interface Request {
-  provider: string;
+  provider_id: string;
   date: Date;
 }
 
 class CreateSchedulingService {
-  public async execute({ provider, date }: Request): Promise<Scheduling> {
+  public async execute({ provider_id, date }: Request): Promise<Scheduling> {
     const schedulingRepository = getCustomRepository(SchedulingRepository);
     const schedulingDate = startOfHour(date);
 
@@ -23,7 +23,7 @@ class CreateSchedulingService {
     }
 
     const scheduling = schedulingRepository.create({
-      provider,
+      provider_id,
       date: schedulingDate,
     });
 

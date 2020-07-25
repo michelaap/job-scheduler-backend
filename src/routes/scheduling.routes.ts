@@ -15,13 +15,13 @@ schedulingRouter.get('/', async (req, res) => {
 
 schedulingRouter.post('/', async (req, res) => {
   try {
-    const { provider, date } = req.body;
+    const { provider_id, date } = req.body;
 
     const parsedDate = parseISO(date);
     const createScheduling = new CreateSchedulingService();
 
     const scheduling = await createScheduling.execute({
-      provider,
+      provider_id,
       date: parsedDate,
     });
 

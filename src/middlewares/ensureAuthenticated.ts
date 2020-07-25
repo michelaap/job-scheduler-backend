@@ -3,6 +3,12 @@ import { verify } from 'jsonwebtoken';
 
 import authConfig from '../config/auth';
 
+interface TokenPayload {
+  iat: number;
+  exp: number;
+  sub: string;
+}
+
 export default function ensureAuthenticated(
   req: Request,
   res: Response,
@@ -17,8 +23,15 @@ export default function ensureAuthenticated(
   const token = authHeader.replace('Bearer ', '');
 
   try {
-    const decoded = verify(token, authConfig.jwt.secret as string);
-    console.log(decoded);
+    const { sub } = verify(
+      token,
+      authConfig.jwt.secret as string,
+    ) as TokenPayload;
+
+    req.user = {
+      id: sub,
+    };
+
     return next();
   } catch (error) {
     throw new Error('Token invalid!');

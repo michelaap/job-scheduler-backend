@@ -1,6 +1,7 @@
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
 import Scheduling from '../models/Scheduling';
 import SchedulingRepository from '../repositories/SchedulingRepository';
 
@@ -19,7 +20,7 @@ class CreateSchedulingService {
     );
 
     if (findSchedulingOnTheSameDate) {
-      throw Error('This time already scheduled');
+      throw new AppError('This time already scheduled');
     }
 
     const scheduling = schedulingRepository.create({

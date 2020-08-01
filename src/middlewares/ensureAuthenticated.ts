@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
+import AppError from '../errors/AppError';
 import authConfig from '../config/auth';
 
 interface TokenPayload {
@@ -17,7 +18,7 @@ export default function ensureAuthenticated(
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    throw new Error('Token not provider!');
+    throw new AppError('Token not provider!', 401);
   }
 
   const token = authHeader.replace('Bearer ', '');
@@ -34,6 +35,6 @@ export default function ensureAuthenticated(
 
     return next();
   } catch (error) {
-    throw new Error('Token invalid!');
+    throw new AppError('Token invalid!', 401);
   }
 }

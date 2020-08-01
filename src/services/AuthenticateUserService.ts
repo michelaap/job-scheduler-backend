@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
+import AppError from '../errors/AppError';
 import authConfig from '../config/auth';
 import User from '../models/User';
 
@@ -24,13 +25,13 @@ class AuthenticateUserService {
     });
 
     if (!user) {
-      throw new Error("Email or Password doesn't match");
+      throw new AppError("Email or Password doesn't match", 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error("Email or Password doesn't match");
+      throw new AppError("Email or Password doesn't match", 401);
     }
 
     delete user.password;

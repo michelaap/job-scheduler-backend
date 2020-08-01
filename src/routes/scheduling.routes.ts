@@ -16,21 +16,17 @@ schedulingRouter.get('/', async (req, res) => {
 });
 
 schedulingRouter.post('/', async (req, res) => {
-  try {
-    const { provider_id, date } = req.body;
+  const { provider_id, date } = req.body;
 
-    const parsedDate = parseISO(date);
-    const createScheduling = new CreateSchedulingService();
+  const parsedDate = parseISO(date);
+  const createScheduling = new CreateSchedulingService();
 
-    const scheduling = await createScheduling.execute({
-      provider_id,
-      date: parsedDate,
-    });
+  const scheduling = await createScheduling.execute({
+    provider_id,
+    date: parsedDate,
+  });
 
-    return res.json(scheduling);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
+  return res.json(scheduling);
 });
 
 export default schedulingRouter;
